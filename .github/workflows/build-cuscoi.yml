@@ -1,0 +1,42 @@
+name: Build EDK2-msm for Motorola Edge 50 Fusion (cuscoi)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'Silicon/Qualcomm/sm7435/**'
+      - 'Platform/Motorola/sm7435/**'
+      - 'configs/sm7435.conf'
+      - 'configs/devices/cuscoi.conf'
+      - '.github/workflows/build-cuscoi.yml'
+
+jobs:
+  build:
+    name: Build cuscoi UEFI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: false
+          fetch-depth: 1
+
+      - name: Install required packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential uuid-dev clang llvm iasl nasm \
+            gcc-aarch64-linux-gnu abootimg python3-pil python3-git \
+            gettext autopoint bison flex bc
+
+      - name: Build UEFI boot image for cuscoi
+        run: |
+          chmod +x ./build.sh
+          ./build.sh --device cuscoi --release RELEASE
+
+      - name: Upload boot-cuscoi.img Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: boot-cuscoi
+          path: ./boot-cuscoi.img

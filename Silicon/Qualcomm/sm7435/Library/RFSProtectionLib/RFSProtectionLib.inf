@@ -1,0 +1,25 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = RFSProtectionLib
+  FILE_GUID                      = 2FDF4E63-5AD5-4385-A729-868019B74352
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = RFSProtectionLib
+
+[Sources]
+  RFSProtectionLib.c
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  Silicon/Qualcomm/QcomPkg/QcomPkg.dec
+  Silicon/Qualcomm/sm7435/sm7435.dec
+
+[LibraryClasses]
+  BaseMemoryLib
+  DebugLib
+  IoLib
+  ArmSmcLib
+  MemoryMapHelperLib
